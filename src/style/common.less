@@ -1,0 +1,173 @@
+@import "theme";
+
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4, h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  border: none;
+  color: #333;
+  box-sizing: border-box;
+  font-family: "Microsoft Yahei", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+  -webkit-appearance: none;
+}
+
+textarea {
+  -webkit-appearance: none;
+}
+
+::-webkit-input-placeholder,
+.el-input__inner::-webkit-input-placeholder,
+.el-input.is-disabled .el-input__inner::-webkit-input-placeholder,
+.el-textarea__inner::-webkit-input-placeholder,
+.el-textarea.is-disabled .el-textarea__inner::-webkit-input-placeholder {
+  color: @placeholder !important;
+}
+
+.weui-btn_plain-default {
+  color: @blue !important;
+  border: 1px solid @blue !important;
+  background-color: white !important;
+  &:active {
+    color: @blueHover !important;
+    border: 1px solid @blueHover !important;
+    background-color: @grey !important;
+  }
+}
+
+.weui-btn_disabled.weui-btn_primary {
+  opacity: 0.6;
+  background-color: @blue !important;
+}
+
+.weui-search-bar__label {
+  span {
+    color: @gray !important;
+  }
+}
+
+.weui-dialog {
+  padding: 10px !important;
+}
+
+.weui-cell:before {
+  left: 0 !important;
+}
+
+.weui-cells__title {
+  margin: 0 !important;
+}
+
+.weui-input:disabled {
+  color: #bbb !important;
+}
+
+.vux-x-hr {
+  padding-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.vux-x-icon {
+  fill: @blue;
+}
+
+.el-input__inner {
+  border: none !important;
+  height: 45px;
+  line-height: 45px;
+  font-size: 16px;
+  text-indent: 5px;
+}
+
+.el-input.is-disabled .el-input__inner {
+  background-color: white;
+}
+
+.right-arrow:after {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-bottom: 1px solid @gray;
+  border-left: 1px solid @gray;
+  transform: rotate(-135deg);
+}
+
+.clear:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.clear {
+  zoom: 1;
+}
+
+.back_img {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.margin {
+  margin: 0 auto;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bottom_btn_wrapper {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 0.4em;
+}
+
+.flex_between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.no_padding {
+  padding: 0;
+}
+
+.no_margin {
+  margin: 0;
+}
+
+.inline-calendar td.is-today > span.vux-calendar-each-date,
+.inline-calendar td.is-today.is-disabled > span.vux-calendar-each-date {
+  color: @blue;
+}
