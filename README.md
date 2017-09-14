@@ -1,6 +1,5 @@
-# whalein
 
-> A Vue.js project
+> vue + vue-router + vuex + axios + vux 构建的大型单页WEB应用
 
 ## Build Setup
 
@@ -26,5 +25,8 @@ npm run e2e
 # run all tests
 npm test
 ```
+![image](http://tgzzl.oss-cn-shenzhen.aliyuncs.com/261505104587_.pic_hd.jpg)
+![image](http://tgzzl.oss-cn-shenzhen.aliyuncs.com/271505104589_.pic_hd.jpg)
+![image](http://tgzzl.oss-cn-shenzhen.aliyuncs.com/281505105718_.pic_hd.jpg)
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
