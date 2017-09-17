@@ -1,0 +1,11 @@
+.px2rem(@px) {
+  @size: @px / 72 * 1rem;
+}
+
+.px2rem(@name, @px) {
+    @{name}: @px / 72 * 1rem;
+}
+
+._px2rem(@name, @px) {
+    @{name}: @px / 72 * 1rem !important;
+}

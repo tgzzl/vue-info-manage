@@ -63,44 +63,24 @@
 </script>
 
 <style lang="less" scoped>
+  @import "../../style/common";
+
   .home_page {
-    padding: 15px;
+    .px2rem(padding, 15);
     text-align: center;
 
     img.single {
-      width: 100%;
-      height: 100%;
+      .px2rem(width, 669);
+      .px2rem(height, 302);
     }
 
     .item {
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      img:first-child {
-        width: 49%;
-        height: 100%;
-      }
-      img:last-child {
-        width: 48%;
-        height: 100%;
-      }
-    }
-    @media only screen and (min-width: 1000px) {
+      justify-content: space-around;
+      .px2rem(margin-bottom, 15);
       img {
-        width: auto !important;
-        height: auto !important;
-      }
-
-      .item {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 15px;
-        img:first-child {
-          margin-right: 8px;
-        }
-        img:last-child {
-          margin-left: 8px;
-        }
+        .px2rem(width, 320);
+        .px2rem(height, 320);
       }
     }
   }

@@ -11,8 +11,8 @@
 
       <group gutter="5px" label-width="4em" label-margin-right="2em" label-align="right">
         <input-picker placeholder="从哪装货(必填)" value-align="left" :value="this.contacts[0]" ref="senderAddressEvent">
-          <img slot="icon" :width="iconWidth" class="icon" src="../../assets/sender_address.svg"/>
-          <img slot="child" :width="iconWidth" class="icon-child" src="../../assets/slot_address.svg"
+          <img slot="icon"  class="icon" src="../../assets/sender_address.svg"/>
+          <img slot="child" class="icon-child" src="../../assets/slot_address.svg"
                @click="goContactPage(0)"/>
         </input-picker>
         <x-datetime-range class="datetime-padding" title="装货时间" v-model="contacts[0].expected_time"></x-datetime-range>
@@ -24,8 +24,8 @@
 
       <group gutter="5px" label-width="4em" label-margin-right="2em" label-align="right">
         <input-picker placeholder="到哪卸货(必填)" value-align="left" :value="this.contacts[1]" ref="receiverAddressEvent">
-          <img slot="icon" :width="iconWidth" class="icon" src="../../assets/receiver_address.svg"/>
-          <img slot="child" :width="iconWidth" class="icon-child" src="../../assets/slot_address.svg"
+          <img slot="icon" class="icon" src="../../assets/receiver_address.svg"/>
+          <img slot="child" class="icon-child" src="../../assets/slot_address.svg"
                @click="goContactPage(1)"/>
         </input-picker>
         <x-datetime-range class="datetime-padding" title="卸货时间"
@@ -35,7 +35,7 @@
 
       <group gutter="5px" label-width="4em" label-margin-right="2em" label-align="right">
         <cell is-link value-align="left" @click.native="showVehicleTypePopupPicker = true">
-          <img slot="icon" :width="iconWidth" class="icon" src="../../assets/car.svg"/>
+          <img slot="icon" class="icon" src="../../assets/car.svg"/>
           <span slot="default" :class="{'cell-tips': !this.order.vehicle_type_name}">{{showVehicleType}}</span>
         </cell>
         <popup-picker :show="showVehicleTypePopupPicker" @on-hide="showVehicleTypePopupPicker = false"
@@ -54,7 +54,7 @@
 
       <group gutter="5px" label-width="4em" label-margin-right="2em" label-align="right" class="last-group">
         <x-input v-model="charges[0].receivable_amount" placeholder="本单收取发货人金额" type="number">
-          <img slot="label" class="icon" :width="iconWidth" src="../../assets/income.svg">
+          <img slot="label" class="icon" src="../../assets/income.svg">
         </x-input>
       </group>
       <x-hr/>
@@ -86,9 +86,8 @@
       XDatetimeRange,
       XHr
     },
-    data () {
+    data() {
       return {
-        iconWidth: 30,
         showVehicleTypePopupPicker: false,
         vehicleTypeName: [],
         vehicleTypes: [PICK_VEHICLE_TYPES],
@@ -135,20 +134,20 @@
     created() {
       this.loadDataFromStore();
     },
-    beforeDestroy(){
+    beforeDestroy() {
       if (this.vehicleTypeName && this.vehicleTypeName.length) {
         this.order.vehicle_type_name = this.vehicleTypeName[0];
       }
       this.SAVE_ORDER_DATA({order: this.order, contacts: this.contacts, charges: this.charges});
     },
     computed: {
-      showCustomerName(){
+      showCustomerName() {
         return this.order.customer_name ? this.order.customer_name : '选择发货人名称(必填)';
       },
-      showVehicleType(){
+      showVehicleType() {
         return this.order.vehicle_type_name ? this.order.vehicle_type_name : '选择车型';
       },
-      showVehicleTypeNote(){
+      showVehicleTypeNote() {
         return this.vehicleTypeName && this.vehicleTypeName[0] === '其他车型';
       }
     },
@@ -156,16 +155,16 @@
       ...mapMutations([
         'SAVE_ORDER_DATA'
       ]),
-      onChangeVehicleType(val){
+      onChangeVehicleType(val) {
         this.order.vehicle_type_name = val[0];
       },
-      goContactPage(index){
+      goContactPage(index) {
         this.$router.push({
           path: '/contact',
           query: {id: this.contacts[index].contact_id, contact_type: index == 0 ? 'sender' : 'receiver'}
         });
       },
-      validateForm(){
+      validateForm() {
         if (!this.order.customer_name) {
           showToast.bind(this, '发货人不能为空')();
           return false;
@@ -185,7 +184,7 @@
         }
         return true;
       },
-      loadDataFromStore(){
+      loadDataFromStore() {
         if (this.$store.state.order && this.$store.state.order.vehicle_type_name) {
           this.vehicleTypeName[0] = this.$store.state.order.vehicle_type_name;
         }
@@ -212,7 +211,7 @@
           }
         }
       },
-      buildPostRequestParam(){
+      buildPostRequestParam() {
         if (this.order.vehicle_type_name !== '其他车型') {
           this.order.vehicle_type_note = '';
         }
@@ -227,7 +226,7 @@
 
         return {order: this.order, contacts: this.contacts, charges: this.charges};
       },
-      submitOrder(){
+      submitOrder() {
         if (!this.validateForm()) {
           return;
         }
@@ -251,7 +250,7 @@
 </script>
 
 <style lang="less">
-  @import '../../style/theme';
+  @import '../../style/common';
 
   .router-view {
     display: flex;
@@ -260,11 +259,11 @@
 
     .order-form {
       overflow-y: auto;
-      margin-bottom: 65px;
+      .px2rem(margin-bottom, 65);
       background-color: @bg;
 
       .weui-cell:before {
-        margin-left: 55px !important;
+        ._px2rem(margin-left, 95);
       }
 
       .weui-cells:after {
@@ -272,21 +271,18 @@
       }
 
       .vux-cell-box:before {
-        margin-left: 40px !important;
+        ._px2rem(margin-left, 70);
       }
 
       .weui-label {
         color: @placeholder;
-      }
-
-      .icon-require {
-        display: block;
-        margin-right: 10px;
+        margin-right: 0 !important;
       }
 
       .icon {
         display: block;
-        margin-right: 10px;
+        .px2rem(margin-right, 10);
+        .px2rem(width, 60);
       }
 
       .field-require {
@@ -299,15 +295,16 @@
       }
 
       .icon-child {
-        margin-left: 10px;
+        .px2rem(margin-left, 10);
+        .px2rem(width, 60);
       }
 
       .input-padding {
-        padding-left: 55px;
+        .px2rem(padding-left, 100);
       }
 
       .datetime-padding {
-        padding-left: 40px;
+        .px2rem(padding-left, 70);
       }
 
       .cell-tips {
@@ -315,7 +312,7 @@
       }
     }
     .bottom_btn_wrapper {
-      padding: 10px;
+      .px2rem(padding, 20);
     }
   }
 </style>

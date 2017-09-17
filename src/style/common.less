@@ -1,4 +1,5 @@
 @import "theme";
+@import "mixin";
 
 body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4, h5, h6, i, b, textarea, button, input, select, figure, figcaption {
   padding: 0;
@@ -56,7 +57,7 @@ textarea {
 }
 
 .weui-dialog {
-  padding: 10px !important;
+  ._px2rem(padding, 10);
 }
 
 .weui-cell:before {
@@ -82,10 +83,10 @@ textarea {
 
 .el-input__inner {
   border: none !important;
-  height: 45px;
-  line-height: 45px;
-  font-size: 16px;
-  text-indent: 5px;
+  .px2rem(font-size, 16);
+  .px2rem(height, 45);
+  .px2rem(line-height, 45);
+  .px2rem(text-indent, 5);
 }
 
 .el-input.is-disabled .el-input__inner {
@@ -94,12 +95,12 @@ textarea {
 
 .right-arrow:after {
   position: absolute;
-  right: 10px;
+  .px2rem(right, 10);
   top: 50%;
   content: '';
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  .px2rem(width, 6);
+  .px2rem(height, 6);
   border-bottom: 1px solid @gray;
   border-left: 1px solid @gray;
   transform: rotate(-135deg);

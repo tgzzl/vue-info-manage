@@ -8,7 +8,7 @@
       placeholder="输入发货人姓名、公司名称、手机号"
       ref="search"></search>
     <div v-if="customers.length == 0" class="not_result">
-      <img src="../../assets/empty_customer.png" width="120px">
+      <img src="../../assets/empty_customer.png" class="icon">
       <div style="margin: 10px 0;">您还没有常用发货人，先去添加吧！</div>
       <x-button style="width: 70%;" @click.native="newCustomer" type="primary">+添加发货人</x-button>
     </div>
@@ -56,14 +56,14 @@
       Scroller,
       XHr
     },
-    data () {
+    data() {
       return {
         searchText: '',
         selfUser: {},
         customers: []
       }
     },
-    mounted(){
+    mounted() {
       this.resetScroller();
 //      fetchUser().then(res => {
 //        this.selfUser = res.user || this.selfUser;
@@ -74,24 +74,24 @@
       ...mapMutations([
         'SELECT_CUSTOMER'
       ]),
-      onSubmit(){
+      onSubmit() {
         this.getCustomers();
       },
-      selectCustomer(customer){
+      selectCustomer(customer) {
         this.SELECT_CUSTOMER(customer);
         this.$router.go(-1);
       },
-      newCustomer(){
+      newCustomer() {
         this.$router.push('/customer/edit');
       },
-      editCustomer(customer){
+      editCustomer(customer) {
         let data = Object.assign({}, customer);
         data.title = true;
         delete data.created_at;
         delete data.updated_at;
         this.$router.push({path: '/customer/edit', query: data});
       },
-      getCustomers(){
+      getCustomers() {
         fetchCustomers({
           search_text: this.searchText
         }).then(res => {
@@ -99,13 +99,13 @@
           this.resetScroller();
         }, showToast.bind(this));
       },
-      resetScroller(){
+      resetScroller() {
         if (!this.$refs.scrollerEvent || !this.$refs.scrollerEvent.reset) {
           return;
         }
         this.$nextTick(_ => this.$refs.scrollerEvent.reset({top: 0}));
       },
-      isSelected(obj){
+      isSelected(obj) {
         return this.$route.query.id == obj.id;
       }
     }
@@ -114,9 +114,14 @@
 
 <style lang="less" scoped>
   @import '../../style/theme';
+  @import '../../style/mixin';
 
   .customer_list_page {
-    font-size: 16px;
+    .px2rem(font-size, 16);
+
+    .icon {
+      .px2rem(width, 178);
+    }
 
     .not_result {
       color: gray;
@@ -125,16 +130,17 @@
     }
     .operator {
       color: @blue;
-      margin: 10px 0 10px 0;
-      padding-left: 10px;
+      .px2rem(10);
+      margin: @size 0;
+      padding-left: @size;
       border-left: 1px solid darkgray;
     }
     .customer {
       text-align: left;
-      padding: 10px;
+      .px2rem(padding, 10);
 
       label {
-        font-size: 14px;
+        .px2rem(font-size, 14);
         color: gray;
       }
     }
