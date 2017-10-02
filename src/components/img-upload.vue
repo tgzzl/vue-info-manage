@@ -27,7 +27,7 @@
    *   params   Object  {}       表单额外参数, 附件长传固定参数{object_name, object_id}
    */
 
-  import {uploadImageApi} from '../config/api'
+  import API from '../config/api'
   import {endpoint} from '../config/env'
 
   export default {
@@ -125,7 +125,7 @@
           media_id: mediaId,
           current_attachments: this.currentAttachments
         }, this.params);
-        uploadImageApi(uploadParams).then(res => {
+        API.uploadImageApi(uploadParams).then(res => {
           if (res.return_info) {
             this.addToCurrentAttachments(res.return_info);
             this.showToast('上传成功');

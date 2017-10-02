@@ -32,7 +32,7 @@
   import ImgUpload from './img-upload'
   import XDatetimeRange from './x-datetime-range'
   import {dateFormat} from '../util/utils'
-  import {updateOrderTask, executeOrderTask, updateOrderTaskAttachment} from '../config/api'
+  import API from '../config/api'
 
   export default {
     components: {ImgUpload, XDatetimeRange},
@@ -54,7 +54,7 @@
     },
     watch: {
       'orderTask.attachment'(val){
-        updateOrderTaskAttachment({
+        API.updateOrderTaskAttachment({
           id: this.orderTask.id,
           attachment: val
         }).then(null, this.showToast)
@@ -91,7 +91,7 @@
         let time = `${val[0]} ${val[1]}:${val[2]}`;
         if (time == this.orderTask.expected_time) return;
         this.orderTask.expected_time = time;
-        updateOrderTask({
+        API.updateOrderTask({
           id: this.orderTask.id,
           expected_time: time
         }).then(null, this.showToast);
@@ -106,7 +106,7 @@
           if (this.location.longitude && this.location.latitude) {
             param.location = this.location;
           }
-          executeOrderTask(param).then(res => {
+          API.executeOrderTask(param).then(res => {
             this.orderTask.actual_time = dateFormat(new Date());
             this.orderTask.status = this.taskCompletedStatus;
           }, this.showToast);

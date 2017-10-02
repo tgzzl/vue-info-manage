@@ -14,7 +14,7 @@
 
 <script>
   import {mapMutations} from 'vuex'
-  import {configJssdk, fetchUserSession, fetchConstantMap} from '../../config/api'
+  import API from '../../config/api'
   import {setStore, omit} from '../../util/utils'
   import {trustedDomainFullName} from '../../config/env'
 
@@ -23,14 +23,14 @@
       return {}
     },
     mounted() {
-      fetchUserSession().then(res => {
+      API.fetchUserSession().then(res => {
         this.$store.commit('UPDATE_LOADING_STATUS', false);
 
         setStore('USER_INFO', res.user);
 
         // config wechat jssdk
         const url = encodeURIComponent(trustedDomainFullName);
-        configJssdk(url).then(res => this.$wechat.config(res.data));
+        API.configJssdk({url: url}).then(res => this.$wechat.config(res.data));
 
         // 如果存在未授权的url，服务器端获取微信授权后，设置前端路由跳转到该url
         let route = res.user_query;
@@ -45,7 +45,7 @@
           window.location.href = '/users/entrance?user_query=' + encodeURIComponent(JSON.stringify(this.$route.query));
         }
       });
-      fetchConstantMap().then(res => setStore('CONSTANT_MAP', res));
+      API.fetchConstantMap().then(res => setStore('CONSTANT_MAP', res));
     },
     methods: {
       ...mapMutations([

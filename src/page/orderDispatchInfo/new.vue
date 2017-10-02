@@ -25,13 +25,7 @@
   import OrderShareDialog from '../../components/order-share-dialog'
   import {dateFormat, showToast} from '../../util/utils'
   import {endpoint} from '../../config/env'
-  import {
-    fetchUser,
-    fetchOrder,
-    fetchOrderDispatchInfo,
-    updateOrderToOnWay,
-    orderDispatchCollaboratives
-  } from '../../config/api'
+  import API from '../../config/api'
 
   export default {
     components: {XHr, XButton, Group, Cell, Step, DispatchInfoForm, OrderShare, OrderShareDialog},
@@ -50,13 +44,13 @@
       }
     },
     created() {
-      fetchUser().then(res => this.user = res.user || this.user);
+      API.fetchUser().then(res => this.user = res.user || this.user);
 
-      fetchOrderDispatchInfo(this.orderId).then(res => {
+      API.fetchOrderDispatchInfo({order_id: this.orderId}).then(res => {
         this.dispatchInfo = res.dispatch_info || this.dispatchInfo;
       }, showToast.bind(this));
 
-      fetchOrder(this.orderId).then(res => {
+      API.fetchOrder({id: this.orderId}).then(res => {
         this.order = res.order || this.order;
         this.contacts = res.contacts || this.contacts;
         this.charge = res.charges && res.charges.length ? res.charges[0] : this.charge;
@@ -66,7 +60,7 @@
     },
     methods: {
       updateOrder(){
-        updateOrderToOnWay(this.orderId).then(res => {
+        API.updateOrderToOnWay({id: this.orderId}).then(res => {
           this.order.status = 'delivering';
           showToast.bind(this, '加入成功！')();
         }, showToast.bind(this));
@@ -93,7 +87,7 @@
       },
       shareCallBack(){
         console.log('Order share success:', this.shareLink);
-        orderDispatchCollaboratives(this.orderDispatchParams);
+        API.orderDispatchCollaboratives(this.orderDispatchParams);
       },
       toggleOrderInfo(){
         this.showOrderInfo = !this.showOrderInfo;

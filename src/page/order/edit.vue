@@ -71,7 +71,7 @@
   import InputPicker from '../../components/input-picker'
   import XDatetimeRange from '../../components/x-datetime-range'
   import {dateFormat, showToast, replaceEmoji, PICK_VEHICLE_TYPES} from '../../util/utils'
-  import {fetchOrder, createOrder, updateOrder} from '../../config/api'
+  import API from '../../config/api'
 
   export default {
     components: {
@@ -231,14 +231,14 @@
           return;
         }
         if (this.$route.query.id) {
-          updateOrder(this.buildPostRequestParam()).then(res => {
+          API.updateOrder(this.buildPostRequestParam()).then(res => {
             showToast.bind(this, '更新成功')();
             setTimeout(_ => {
               this.$router.go(-1);
             }, 1500)
           }, showToast.bind(this))
         } else {
-          createOrder(this.buildPostRequestParam()).then(res => {
+          API.createOrder(this.buildPostRequestParam()).then(res => {
             this.$router.replace({path: '/order/result', query: {id: res.id, order_number: res.order_number}});
           }, error => {
             this.$router.push('/order/result');

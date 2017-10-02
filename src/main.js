@@ -4,7 +4,7 @@ import {sync} from 'vuex-router-sync'
 import FastClick from 'fastclick'
 import routes from './router/index'
 import store from './store/'
-import {configJssdk} from './config/api'
+import API from './config/api'
 import {trustedDomainFullName} from './config/env'
 import './config/rem'
 import {WechatPlugin, ConfirmPlugin, ToastPlugin} from 'vux'
@@ -31,7 +31,7 @@ sync(store, router);
 
 // config wechat jssdk
 const url = encodeURIComponent(trustedDomainFullName);
-configJssdk(url).then(res => {
+API.configJssdk({url: url}).then(res => {
   Vue.wechat.config(res.data)
 });
 

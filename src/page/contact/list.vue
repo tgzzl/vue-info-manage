@@ -37,7 +37,7 @@
 <script>
   import {mapState, mapMutations} from 'vuex'
   import {Search, Group, CellBox, Cell, XButton, Scroller, XHr} from 'vux'
-  import {fetchContacts} from '../../config/api'
+  import API from '../../config/api'
   import {showToast} from '../../util/utils'
 
   export default {
@@ -88,7 +88,7 @@
         this.$router.push({path: '/contact/edit', query: data});
       },
       getContacts(){
-        fetchContacts({
+        API.fetchContacts({
           search_text: this.searchText
         }).then(res => {
           this.contacts = res.contacts || this.contacts;

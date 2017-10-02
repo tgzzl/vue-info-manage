@@ -38,7 +38,7 @@
 
 <script>
   import {Group, XInput, XTextarea, XHr, Checker, CheckerItem, XButton, Flexbox, FlexboxItem} from 'vux'
-  import {saveOrderException} from '../../config/api'
+  import API from '../../config/api'
   import ImgUpload from '../../components/img-upload'
   import {getStore, showToast, dateFormat, replaceEmoji} from '../../util/utils'
 
@@ -92,7 +92,7 @@
         if (this.location.longitude && this.location.latitude) {
           params.location = this.location;
         }
-        saveOrderException(params).then(res => {
+        API.saveOrderException(params).then(res => {
           this.$router.go(-1);
         }, showToast.bind(this));
       },

@@ -61,7 +61,7 @@
   import {Input} from 'element-ui'
   import OrderItem from '../../components/order-item'
   import Toolbar from '../../components/toolbar'
-  import {fetchOrders} from '../../config/api'
+  import API from '../../config/api'
   import {showToast} from '../../util/utils'
 
   export default {
@@ -161,7 +161,7 @@
         this.$nextTick(_ => this.$refs.scrollerEvent.reset({top: 0}));
       },
       fetchOrderList(params = {}){
-        fetchOrders(Object.assign({statuses: this.statuses, tab_index: this.tabIndex}, params))
+        API.fetchOrders(Object.assign({statuses: this.statuses, tab_index: this.tabIndex}, params))
         .then(res => {
           this.orders = res.orders || this.orders;
           this.resetScroller();

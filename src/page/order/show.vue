@@ -181,7 +181,7 @@
   import ImgUpload from '../../components/img-upload'
   import Toolbar from '../../components/toolbar'
   import {getStore, setStore, dateFormat, showToast, omit} from '../../util/utils'
-  import {fetchConstantMap, fetchOrderMultipleInfo, updateOrderToOnWay,} from '../../config/api'
+  import API from '../../config/api'
 
   export default {
     components: {XButton, XHr, ImgUpload, Toolbar},
@@ -204,7 +204,7 @@
       let orderId = this.$route.query.id;
       this.$store.commit('UPDATE_LOADING_STATUS', true);
 
-      fetchOrderMultipleInfo(orderId).then(res => {
+      API.fetchOrderMultipleInfo({order_id: orderId}).then(res => {
         this.$store.commit('UPDATE_LOADING_STATUS', false);
 
         this.order = res.order || this.order;
@@ -229,7 +229,7 @@
         this.chargeNameMap = constantMap.order_charge.name;
         this.exceptionTypeMap = constantMap.order_exception.exception_type;
       } else {
-        fetchConstantMap().then(res => {
+        API.fetchConstantMap().then(res => {
           setStore('CONSTANT_MAP', res);
           this.chargeNameMap = res.order_charge.name;
           this.exceptionTypeMap = res.order_exception.exception_type;
@@ -291,7 +291,7 @@
         this.$router.push({path: '/order_dispatch_info/edit', query: {id: this.order.id}});
       },
       changeOnWay(){
-        updateOrderToOnWay(this.order.id).then(res => {
+        API.updateOrderToOnWay({id: this.order.id}).then(res => {
           this.order.status = 'delivering';
           showToast.bind(this, '加入成功！')();
         }, showToast.bind(this))

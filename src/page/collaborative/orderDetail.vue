@@ -59,7 +59,7 @@
   import {XButton, XHr, Flexbox, FlexboxItem} from 'vux'
   import {dateFormat, showToast, getStore, pick} from '../../util/utils'
   import Toolbar from '../../components/toolbar'
-  import {fetchCollaborative, fetchUser, receiveCollaboratives} from '../../config/api'
+  import API from '../../config/api'
 
   export default {
     components: {XButton, XHr, Flexbox, FlexboxItem, Toolbar},
@@ -86,10 +86,10 @@
       this.query.access_url = this.$route.path;
       let pickQuery = pick(this.query, ['order_id', 'share_user_id', 'timestamp']);
 
-      receiveCollaboratives(pickQuery);
+      API.receiveCollaboratives(pickQuery);
 
       this.$store.commit('UPDATE_LOADING_STATUS', true);
-      fetchCollaborative(pickQuery).then(res => {
+      API.fetchCollaborative(pickQuery).then(res => {
         this.$store.commit('UPDATE_LOADING_STATUS', false);
 
         this.order = res.order || this.order;
@@ -137,7 +137,7 @@
           showToast.bind(this, '您来晚了，该订单已被其他人接下！')();
           return;
         }
-        fetchUser().then(res => {
+        API.fetchUser().then(res => {
           if (res.user && res.user.phone_number) {
             this.$router.push({path: '/user/agreement', query: {user: res.user, collaborative: this.query}});
           } else {

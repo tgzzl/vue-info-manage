@@ -47,7 +47,7 @@
 
 <script>
   import {Group, XInput, XTextarea, XHr, Checker, CheckerItem, XButton, Flexbox, FlexboxItem} from 'vux'
-  import {saveOrderCharge} from '../../config/api'
+  import API from '../../config/api'
   import ImgUpload from '../../components/img-upload'
   import {getStore, showToast, replaceEmoji} from '../../util/utils'
 
@@ -106,7 +106,7 @@
       saveCharge(){
         if (this.checkParams()) {
           replaceEmoji(this.charge, 'note');
-          saveOrderCharge(this.charge).then(res => {
+          API.saveOrderCharge(this.charge).then(res => {
             this.$router.go(-1);
           }, showToast.bind(this));
         }

@@ -15,7 +15,7 @@
 <script>
   import {mapMutations} from 'vuex'
   import {Group, CellBox, XInput, XButton} from 'vux'
-  import {createCustomer, updateCustomer} from '../../config/api'
+  import API from '../../config/api'
   import {showToast, replaceEmoji} from '../../util/utils'
 
   export default {
@@ -53,9 +53,9 @@
         if (!this.checkForm()) return;
         replaceEmoji(this.customer, ['contact_name', 'name']);
         if (this.customer.id) {
-          updateCustomer(this.customer).then(this.pushCustomer, showToast.bind(this));
+          API.updateCustomer(this.customer).then(this.pushCustomer, showToast.bind(this));
         } else {
-          createCustomer(this.customer).then(this.pushCustomer, showToast.bind(this));
+          API.createCustomer(this.customer).then(this.pushCustomer, showToast.bind(this));
         }
       }
     }

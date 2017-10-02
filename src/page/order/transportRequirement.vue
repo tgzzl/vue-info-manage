@@ -34,12 +34,7 @@
   import ImgUpload from '../../components/img-upload'
   import XDatetimeRange from '../../components/x-datetime-range'
   import {dateFormat, showToast, replaceEmoji, pick} from '../../util/utils'
-  import {
-    fetchOrderTasks,
-    updateOrderTask,
-    fetchOrderTransportRequirement,
-    saveOrderTransportRequirement,
-  } from '../../config/api'
+  import API from '../../config/api'
 
   export default {
     components: {Group, XButton, XTextarea, XHr, Flexbox, FlexboxItem, Step, ImgUpload, XDatetimeRange},
@@ -56,11 +51,11 @@
       }
     },
     mounted(){
-      fetchOrderTransportRequirement(this.orderId).then(res => {
+      API.fetchOrderTransportRequirement({order_id: this.orderId}).then(res => {
         this.transportRequirement = pick(res, ['attachment', 'transport_note']);
       }, showToast.bind(this));
 
-      fetchOrderTasks(this.orderId).then(res => {
+      API.fetchOrderTasks({order_id: this.orderId}).then(res => {
         this.tasks = res.tasks || this.tasks;
         this.taskExpectedTimes = this.tasks.map(item => {
           return item.expected_time;
@@ -81,13 +76,13 @@
       onsubmit(){
         this.tasks.forEach((item, index) => {
           if (this.taskExpectedTimes[index] != item.expected_time) {
-            updateOrderTask({id: item.id, expected_time: item.expected_time});
+            API.({id: item.id, expected_time: item.expected_time});
           }
         });
 
         replaceEmoji(this.transportRequirement, 'transport_note');
         this.transportRequirement.order_id = this.orderId;
-        saveOrderTransportRequirement(this.transportRequirement).then(res => {
+        API.saveOrderTransportRequirement(this.transportRequirement).then(res => {
           this.$router.push({path: '/order_dispatch_info/new', query: {id: this.orderId}});
         }, showToast.bind(this));
       }

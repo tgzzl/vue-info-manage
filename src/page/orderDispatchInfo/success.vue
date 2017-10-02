@@ -17,7 +17,7 @@
   import Step from '../../components/step'
   import Toolbar from '../../components/toolbar'
   import OrderShareDialog from '../../components/order-share-dialog'
-  import {fetchUser, fetchOrder, updateOrderToOnWay, orderDispatchCollaboratives} from '../../config/api'
+  import API from '../../config/api'
   import {dateFormat, showToast} from '../../util/utils'
   import {endpoint} from '../../config/env'
 
@@ -37,9 +37,9 @@
       }
     },
     created(){
-      fetchUser().then(res => this.user = res.user || this.user);
+      API.fetchUser().then(res => this.user = res.user || this.user);
 
-      fetchOrder(this.orderId).then(res => {
+      API.fetchOrder({id: this.orderId}).then(res => {
         this.order = res.order || this.order;
         this.contacts = res.contacts || this.contacts;
         this.charge = res.charges && res.charges.length ? res.charges[0] : this.charge;
@@ -70,10 +70,10 @@
       },
       shareCallBack(){
         console.log('Order share success:', this.shareLink);
-        orderDispatchCollaboratives(this.orderDispatchParams);
+        API.orderDispatchCollaboratives(this.orderDispatchParams);
       },
       onsubmit(){
-        updateOrderToOnWay(this.orderId).then(showToast.bind(this, '加入成功！'), showToast.bind(this))
+        API.updateOrderToOnWay({id: this.orderId}).then(showToast.bind(this, '加入成功！'), showToast.bind(this))
       }
     }
   }

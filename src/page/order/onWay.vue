@@ -21,7 +21,7 @@
   import {Scroller, XButton} from 'vux'
   import OrderItem from '../../components/order-item'
   import Toolbar from '../../components/toolbar'
-  import {fetchOrders} from '../../config/api'
+  import API from '../../config/api'
   import {showToast} from '../../util/utils'
 
   export default {
@@ -34,7 +34,7 @@
     },
     mounted(){
       this.resetScroller();
-      fetchOrders({statuses: this.statuses}).then(res => {
+      API.fetchOrders({statuses: this.statuses}).then(res => {
         this.orders = res.orders || this.orders;
         this.resetScroller();
       }, showToast.bind(this));

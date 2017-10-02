@@ -43,7 +43,7 @@
 
 <script>
   import {Group, XButton, XInput, XHr, Checker, CheckerItem} from 'vux'
-  import {updateUser} from '../../config/api'
+  import API from '../../config/api'
   import {isMobileNumber, isPlateNumber} from '../../util/regexp'
   import {showToast, replaceEmoji, VEHICLE_TYPES} from '../../util/utils'
   import {Autocomplete} from 'element-ui'
@@ -103,7 +103,7 @@
 
         replaceEmoji(this.user, ['company_name', 'name', 'vehicle_type_name']);
 
-        updateUser(this.user).then(res => {
+        API.updateUser(this.user).then(res => {
           if (this.$route.query.collaborative) {
             this.$router.replace({
               path: '/user/agreement',

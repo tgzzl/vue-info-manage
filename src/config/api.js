@@ -1,17 +1,15 @@
 import Axios from 'axios'
 import qs from 'qs'
 import store from '../store/index'
-import {endpoint} from './env'
 
-Axios.defaults.baseURL = `${endpoint}/`;
-Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+Axios.defaults.baseURL = '/api';
 
 const NO_LOADING_TOAST_APIS = ['attachments/upload'];
 
 const fetch = (url, params = {}) => {
   return Axios.get(url, {params: params}).then(response => {
     if (response.data && response.data.return_code == 0) {
-      return Promise.resolve(response.data);
+      return response.data;
     }
     throw response;
   }).catch(error => {
@@ -24,10 +22,10 @@ const post = (url, params = {}) => {
   if (!NO_LOADING_TOAST_APIS.includes(url)) {
     store.commit('UPDATE_LOADING_STATUS', true);
   }
-  return Axios.post(url, qs.stringify({body: JSON.stringify(params)})).then(response => {
+  return Axios.post.bind(null, url, qs.stringify({body: JSON.stringify(params)})).then(response => {
     if (response.data && response.data.return_code == 0) {
       store.commit('UPDATE_LOADING_STATUS', false);
-      return Promise.resolve(response.data);
+      return response.data;
     }
     throw response;
   }).catch(error => {
@@ -37,74 +35,44 @@ const post = (url, params = {}) => {
   });
 };
 
-
-var configJssdk = url => fetch('wechats/jssdk_config', {url: url})
-var uploadImageApi = params => post('attachments/upload', params)
-var fetchConstantMap = () => fetch('constants/sources')
-
-var fetchUser = () => fetch('users/show')
-var fetchUserSession = () => fetch('users/get_session')
-var updateUser = params => post('users/update', params)
-
-var fetchOrder = id => fetch('orders/show', {id: id})
-var fetchOrders = params => fetch('orders/search', params)
-var fetchOrderMultipleInfo = orderId => fetch('orders/multiple_info', {order_id: orderId})
-var createOrder = params => post('orders/create', params)
-var updateOrder = params => post('orders/update', params)
-var updateOrderToOnWay = id => post('orders/to_on_way', {id: id})
-var updateOrderCompleted = id => post('orders/to_completed', {id: id})
-
-var fetchOrderDispatchInfo = orderId => fetch('orders/dispatch_info', {order_id: orderId})
-var saveOrderDispatchInfo = params => post('orders/save_dispatch_info', params)
-
-var fetchCustomers = params => fetch('customers/search', params)
-var createCustomer = params => post('customers/create', params)
-var updateCustomer = params => post('customers/update', params)
-
-var fetchContacts = params => fetch('contacts/search', params)
-var createContact = params => post('contacts/create', params)
-var updateContact = params => post('contacts/update', params)
-
-var fetchFleets = text => fetch('fleets/search', {search_text: text})
-
-var fetchDrivers = text => fetch('drivers/search', {search_text: text})
-
-var fetchVehicles = text => fetch('vehicles/search', {search_text: text})
-
-var saveOrderException = params => post('orders/save_exception', params)
-var reportOrderException = params => post('orders/report_exception', params)
-
-var saveOrderCharge = params => post('orders/save_charge', params)
-var reportOrderCharge = params => post('orders/report_charge', params)
-
-var fetchOrderTransportRequirement = orderId => fetch('orders/transport_requirement', {order_id: orderId})
-var saveOrderTransportRequirement = params => post('orders/save_transport_requirement', params)
-
-var fetchOrderTasks = orderId => fetch('order_tasks/list', {order_id: orderId})
-var updateOrderTask = params => post('order_tasks/update', params)
-var updateOrderTaskAttachment = params => post('order_tasks/update_attachment', params)
-var executeOrderTask = params => post('order_tasks/execute', params)
-
-var fetchCollaboratives = index => fetch('collaboratives/list', {index: index})
-var fetchCollaborative = params => fetch('collaboratives/show', params)
-var acceptCollaboratives = params => post('collaboratives/accept', params)
-var receiveCollaboratives = params => post('collaboratives/receive', params)
-var orderDispatchCollaboratives = params => post('collaboratives/order_dispatch', params)
-
-export {
-  configJssdk, uploadImageApi, fetchConstantMap,
-  fetchUser, fetchUserSession, updateUser,
-  fetchOrder, fetchOrders, fetchOrderMultipleInfo,
-  createOrder, updateOrder, updateOrderToOnWay, updateOrderCompleted,
-  fetchOrderDispatchInfo, saveOrderDispatchInfo,
-  fetchCustomers, createCustomer, updateCustomer,
-  fetchContacts, createContact, updateContact,
-  fetchFleets,
-  fetchDrivers,
-  fetchVehicles,
-  saveOrderException, reportOrderException,
-  saveOrderCharge, reportOrderCharge,
-  fetchOrderTransportRequirement, saveOrderTransportRequirement,
-  fetchOrderTasks, updateOrderTask, updateOrderTaskAttachment, executeOrderTask,
-  fetchCollaboratives, fetchCollaborative, acceptCollaboratives, receiveCollaboratives, orderDispatchCollaboratives
+export default {
+  configJssdk: fetch.bind(null, '/wechats/jssdk_config'),
+  uploadImageApi: post.bind(null, '/attachments/upload'),
+  fetchConstantMap: fetch.bind(null, '/constants/sources'),
+  fetchUser: fetch.bind(null, '/users/show'),
+  fetchUserSession: fetch.bind(null, '/users/get_session'),
+  updateUser: post.bind(null, '/users/update'),
+  fetchOrder: fetch.bind(null, '/orders/show'),
+  fetchOrders: fetch.bind(null, '/orders/search'),
+  fetchOrderMultipleInfo: fetch.bind(null, '/orders/multiple_info'),
+  createOrder: post.bind(null, '/orders/create'),
+  updateOrder: post.bind(null, '/orders/update'),
+  updateOrderToOnWay: post.bind(null, '/orders/to_on_way'),
+  updateOrderCompleted: post.bind(null, '/orders/to_completed'),
+  fetchOrderDispatchInfo: fetch.bind(null, '/orders/dispatch_info'),
+  saveOrderDispatchInfo: post.bind(null, '/orders/save_dispatch_info'),
+  fetchCustomers: fetch.bind(null, '/customers/search'),
+  createCustomer: post.bind(null, '/customers/create'),
+  updateCustomer: post.bind(null, '/customers/update'),
+  fetchContacts: post.bind(null, '/contacts/search'),
+  createContact: post.bind(null, '/contacts/create'),
+  updateContact: post.bind(null, '/contacts/update'),
+  fetchFleets: fetch.bind(null, '/fleets/search'),
+  fetchDrivers: fetch.bind(null, '/drivers/search'),
+  fetchVehicles: fetch.bind(null, '/vehicles/search'),
+  saveOrderException: post.bind(null, '/orders/save_exception'),
+  reportOrderException: post.bind(null, '/orders/report_exception'),
+  saveOrderCharge: post.bind(null, '/orders/save_charge'),
+  reportOrderCharge: post.bind(null, '/orders/report_charge'),
+  fetchOrderTransportRequirement: fetch.bind(null, '/orders/transport_requirement'),
+  saveOrderTransportRequirement: post.bind(null, '/orders/save_transport_requirement'),
+  fetchOrderTasks: fetch.bind(null, '/order_tasks/list'),
+  updateOrderTask: post.bind(null, '/order_tasks/update'),
+  updateOrderTaskAttachment: post.bind(null, '/order_tasks/update_attachment'),
+  executeOrderTask: post.bind(null, '/order_tasks/execute'),
+  fetchCollaboratives: fetch.bind(null, '/collaboratives/list'),
+  fetchCollaborative: fetch.bind(null, '/collaboratives/show'),
+  acceptCollaboratives: post.bind(null, '/collaboratives/accept'),
+  receiveCollaboratives: post.bind(null, '/collaboratives/receive'),
+  orderDispatchCollaboratives: post.bind(null, '/collaboratives/order_dispatch')
 }

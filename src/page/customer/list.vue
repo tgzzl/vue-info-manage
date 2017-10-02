@@ -44,7 +44,7 @@
 <script>
   import {mapMutations} from 'vuex'
   import {Search, Group, Cell, XButton, Scroller, XHr} from 'vux'
-  import {fetchCustomers, fetchUser} from '../../config/api'
+  import API from '../../config/api'
   import {showToast} from '../../util/utils'
 
   export default {
@@ -65,7 +65,7 @@
     },
     mounted() {
       this.resetScroller();
-//      fetchUser().then(res => {
+//      API.fetchUser().then(res => {
 //        this.selfUser = res.user || this.selfUser;
 //      });
       this.getCustomers();
@@ -92,7 +92,7 @@
         this.$router.push({path: '/customer/edit', query: data});
       },
       getCustomers() {
-        fetchCustomers({
+        API.fetchCustomers({
           search_text: this.searchText
         }).then(res => {
           this.customers = res.customers || this.customers;

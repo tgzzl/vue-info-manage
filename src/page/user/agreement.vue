@@ -23,7 +23,7 @@
 
 <script>
   import {XButton, Checker, CheckerItem} from 'vux'
-  import {acceptCollaboratives} from '../../config/api'
+  import API from '../../config/api'
   import {pick, showToast} from '../../util/utils'
 
   export default {
@@ -43,7 +43,7 @@
       onsubmit(){
         let params = pick(this.$route.query.collaborative, ['order_id', 'share_user_id', 'timestamp']);
         params.as_driver = !!this.checked;
-        acceptCollaboratives(params).then(res => {
+        API.acceptCollaboratives(params).then(res => {
           this.$router.replace({path: '/collaborative/success', query: {id: res.order_id}});
         }, showToast.bind(this));
       }

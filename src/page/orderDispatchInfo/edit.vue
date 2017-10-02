@@ -7,7 +7,7 @@
 <script>
   import {XButton} from 'vux'
   import DispatchInfoForm from '../../components/dispatch-info-form'
-  import {fetchOrderDispatchInfo} from '../../config/api'
+  import API from '../../config/api'
   import {showToast} from '../../util/utils'
 
   export default {
@@ -19,7 +19,7 @@
       }
     },
     created() {
-      fetchOrderDispatchInfo(this.orderId).then(res => {
+      API.fetchOrderDispatchInfo({order_id: this.orderId}).then(res => {
         this.dispatchInfo = res.dispatch_info || this.dispatchInfo;
       }, showToast.bind(this));
     }

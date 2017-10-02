@@ -41,9 +41,9 @@
 </template>
 
 <script>
+  import API from '../config/api'
   import {XHr, Group, PopupPicker, XInput, XButton, Flexbox, FlexboxItem} from 'vux'
   import {Autocomplete, Input} from 'element-ui'
-  import {fetchFleets, fetchDrivers, fetchVehicles, saveOrderDispatchInfo} from '../config/api'
   import {isTelephoneNumber, isPlateNumber} from '../util/regexp'
   import {pick, replaceEmoji, VEHICLE_TYPES} from '../util/utils'
 
@@ -55,12 +55,12 @@
       orderStatus: String,
       dispatchInfo: {
         type: Object,
-        default(){
+        default() {
           return {}
         }
       }
     },
-    data () {
+    data() {
       return {
         iconWidth: 30,
         vehicleTypeName: '',
@@ -76,7 +76,7 @@
     },
     created() {
       this.watchDispatchInfo(this.dispatchInfo);
-      fetchFleets('').then(res => {
+      API.fetchFleets().then(res => {
         if (res.fleets && res.fleets.length) {
           this.fleetList = res.fleets.map(item => {
             item.value = item.name;
@@ -84,7 +84,7 @@
           });
         }
       });
-      fetchDrivers('').then(res => {
+      API.fetchDrivers().then(res => {
         if (res.drivers && res.drivers.length) {
           this.driverList = res.drivers.map(item => {
             item.value = item.name;
@@ -92,7 +92,7 @@
           });
         }
       });
-      fetchVehicles('').then(res => {
+      API.fetchVehicles().then(res => {
         if (res.vehicles && res.vehicles.length) {
           this.vehicleList = res.vehicles.map(item => {
             item.value = item.plate_no;
@@ -102,52 +102,52 @@
       });
     },
     computed: {
-      rightButtonText(){
+      rightButtonText() {
         return this.action == 'new' ? '下一步' : '提交';
       }
     },
     watch: {
-      dispatchInfo(val){
+      dispatchInfo(val) {
         this.watchDispatchInfo(val);
       }
     },
     methods: {
-      watchDispatchInfo(val){
+      watchDispatchInfo(val) {
         this.fleetName = val.fleet_name;
         this.driverName = val.driver_name;
         this.driverPhoneNumber = val.driver_phone_number;
         this.plateNo = val.plate_no;
         this.vehicleTypeName = val.vehicle_type_name;
       },
-      onChangeVehicleType(val){
+      onChangeVehicleType(val) {
         this.dispatchInfo.vehicle_type_name = val[0];
       },
-      searchFleet(val, cb){
+      searchFleet(val, cb) {
         let results = val ? this.fleetList.filter(item => item.value.includes(val)) : this.fleetList;
         cb(results);
       },
-      searchDriver(val, cb){
+      searchDriver(val, cb) {
         let results = val ? this.driverList.filter(item => item.value.includes(val)) : this.driverList;
         cb(results);
       },
-      searchVehicle(val, cb){
+      searchVehicle(val, cb) {
         let results = val ? this.vehicleList.filter(item => item.value.includes(val)) : this.vehicleList;
         cb(results);
       },
-      searchVehicleType(val, cb){
+      searchVehicleType(val, cb) {
         let results = val ? this.vehicleTypes.filter(item => item.value.includes(val)) : this.vehicleTypes;
         cb(results);
       },
-      onSelectDriver(val){
+      onSelectDriver(val) {
         this.driverPhoneNumber = val.phone_number;
       },
-      onSelectVehicle(val){
+      onSelectVehicle(val) {
         this.vehicleTypeName = val.vehicle_type_name;
       },
-      showToast(msg){
+      showToast(msg) {
         this.$vux.toast.text(msg);
       },
-      validateForm(){
+      validateForm() {
         if (!this.dispatchInfo.fleet_name) {
           this.showToast('车队或公司不能为空');
           return false;
@@ -162,7 +162,7 @@
         }
         return true;
       },
-      submitForm(){
+      submitForm() {
         this.dispatchInfo.fleet_name = this.fleetName;
         this.dispatchInfo.driver_name = this.driverName;
         this.dispatchInfo.driver_phone_number = this.driverPhoneNumber;
@@ -177,7 +177,7 @@
         let keys = ['id', 'fleet_name', 'driver_name', 'driver_phone_number', 'plate_no',
           'vehicle_type_name', 'vehicle_type_note', 'payable_transportation_fee'];
         let param = {order_id: this.orderId, dispatch_info: pick(this.dispatchInfo, keys)};
-        saveOrderDispatchInfo(param).then(res => {
+        API.saveOrderDispatchInfo(param).then(res => {
           if (this.action == 'new') {
             this.$router.push({
               path: '/order_dispatch_info/success',

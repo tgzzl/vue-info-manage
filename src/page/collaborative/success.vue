@@ -23,7 +23,7 @@
 <script>
   import {XButton, Flexbox, FlexboxItem} from 'vux'
   import Toolbar from '../../components/toolbar'
-  import {updateOrderToOnWay} from '../../config/api'
+  import API from '../../config/api'
   import {showToast} from '../../util/utils'
 
   export default {
@@ -35,7 +35,7 @@
     },
     methods: {
       updateOrder(){
-        updateOrderToOnWay(this.orderId).then(showToast.bind(this, '加入成功！'), showToast.bind(this))
+        API.updateOrderToOnWay({id: this.orderId}).then(showToast.bind(this, '加入成功！'), showToast.bind(this))
       },
       onsubmit(){
         this.$router.replace({path: '/order/transport_requirement', query: {id: this.orderId}});

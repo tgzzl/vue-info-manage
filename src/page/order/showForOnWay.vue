@@ -104,13 +104,7 @@
 
 <script>
   import {Group, CellBox, XButton, XHr} from 'vux'
-  import {
-    fetchOrderMultipleInfo,
-    fetchConstantMap,
-    updateOrderCompleted,
-    reportOrderCharge,
-    reportOrderException
-  } from '../../config/api'
+  import API from '../../config/api'
   import ImgUpload from '../../components/img-upload'
   import OrderTask from '../../components/order-task'
   import {setStore, getStore, dateFormat, showToast, omit} from '../../util/utils'
@@ -135,7 +129,7 @@
       let orderId = this.$route.query.id;
       this.$store.commit('UPDATE_LOADING_STATUS', true);
 
-      fetchOrderMultipleInfo(orderId).then(res => {
+      API.fetchOrderMultipleInfo({order_id: orderId}).then(res => {
         this.$store.commit('UPDATE_LOADING_STATUS', false);
 
         this.$wechat.ready(this.getLocation);
@@ -165,7 +159,7 @@
         this.chargeNameMap = constantMap.order_charge.name;
         this.exceptionTypeMap = constantMap.order_exception.exception_type;
       } else {
-        fetchConstantMap().then(res => {
+        API.fetchConstantMap().then(res => {
           setStore('CONSTANT_MAP', res);
           this.chargeNameMap = res.order_charge.name;
           this.exceptionTypeMap = res.order_exception.exception_type;
@@ -212,7 +206,7 @@
         });
       },
       toCompleted(){
-        updateOrderCompleted(this.order.id).then(res => {
+        API.updateOrderCompleted({id: this.order.id}).then(res => {
           this.$router.go(-1);
         }, showToast.bind(this));
       },
@@ -233,13 +227,13 @@
       },
       reportCharge(charge){
         if (!this.notCompleted) return;
-        reportOrderCharge({id: charge.id}).then(res => {
+        API.reportOrderCharge({id: charge.id}).then(res => {
           charge.status = 'submitted';
         }, showToast.bind(this));
       },
       reportException(exception){
         if (!this.notCompleted) return;
-        reportOrderException({id: exception.id}).then(res => {
+        API.reportOrderException({id: exception.id}).then(res => {
           exception.status = 'submitted';
         }, showToast.bind(this));
       },

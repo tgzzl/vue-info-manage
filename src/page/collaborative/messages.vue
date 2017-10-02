@@ -25,7 +25,7 @@
   import {Tab, TabItem, Scroller} from 'vux'
   import OrderMessage from '../../components/order-message'
   import Toolbar from '../../components/toolbar'
-  import {fetchCollaboratives, fetchConstantMap} from '../../config/api'
+  import API from '../../config/api'
   import {showToast, setStore, getStore} from '../../util/utils'
 
   export default {
@@ -45,7 +45,7 @@
         this.chargeNameMap = constantMap.order_charge.name;
         this.exceptionTypeMap = constantMap.order_exception.exception_type;
       } else {
-        fetchConstantMap().then(res => {
+        API.fetchConstantMap().then(res => {
           setStore('CONSTANT_MAP', res);
           this.chargeNameMap = res.order_charge.name;
           this.exceptionTypeMap = res.order_exception.exception_type;
@@ -65,7 +65,7 @@
         this.fetchData(index);
       },
       fetchData (index) {
-        fetchCollaboratives(index).then(res => {
+        API.fetchCollaboratives({index: index}).then(res => {
           this.messages = res.messages || this.messages;
           this.isReceiveMessage = (index == 0);
           this.resetScroller();

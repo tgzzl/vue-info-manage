@@ -11,7 +11,7 @@
 
 <script>
   import {Group, Cell} from 'vux'
-  import {fetchUser} from '../../config/api'
+  import API from '../../config/api'
 
   export default {
     components: {Group, Cell},
@@ -21,7 +21,7 @@
       }
     },
     created(){
-      fetchUser().then(res => this.user = res.user || this.user);
+      API.fetchUser().then(res => this.user = res.user || this.user);
     },
     methods: {
       goUserLoginPage(){
